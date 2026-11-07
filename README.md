@@ -170,7 +170,22 @@ hf download Qwen/Qwen3-ForcedAligner-0.6B
 
 ## 사용법
 
-### 배치파일로 (권장)
+### 설정 파일로 (더블클릭)
+
+`config.example.toml`을 `config.toml`로 복사하고 `root`를 학기 폴더로 고친 뒤 `run_qwen.bat`을 더블클릭합니다.
+
+```toml
+root = 'D:\강의\2026_2학기'
+folders = ["**/1_강의영상"]   # root 기준 폴더 패턴
+recursive = false             # 폴더 바로 안의 파일만 (작업완료_* 하위 폴더 제외)
+```
+
+- 이미 `.txt`가 있는 파일은 건너뛰므로 새 영상이 생길 때마다 다시 더블클릭하면 됩니다.
+- 옵션만 주면 설정 폴더에 옵션을 적용합니다: `run_qwen.bat --minutes 3`
+- 다른 설정 파일: `run_qwen.bat --config D:\다른설정.toml`
+- `config.toml`은 개인 경로가 들어가므로 git에서 제외됩니다.
+
+### 배치파일로 경로 지정
 
 ```bat
 run_qwen.bat "D:\강의\*.mp4"

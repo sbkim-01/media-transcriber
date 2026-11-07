@@ -87,6 +87,42 @@ def available_inputs(patterns, recursive=False):
     return result
 
 
+DEFAULT_CONFIG = Path(__file__).resolve().parent / "config.toml"
+
+
+def inputs_from_config(config_path):
+    """config.toml의 root 아래에서 folders 패턴에 맞는 강의 폴더 목록을 돌려줍니다."""
+    import tomllib
+    if not config_path.is_file():
+        raise SystemExit(f"[오류] 설정 파일이 없습니다: {config_path}\n"
+                         f"       config.example.toml을 config.toml로 복사한 뒤 root를 고치세요.")
+    try:
+        with config_path.open("rb") as f:
+            cfg = tomllib.load(f)
+    except tomllib.TOMLDecodeError as exc:
+        raise SystemExit(f"[오류] {config_path.name} 형식 오류: {exc}\n"
+                         f"       Windows 경로는 작은따옴표로 쓰세요:  root = 'D:\\강의'")
+    root = Path(str(cfg.get("root", ""))).expanduser()
+    if not str(cfg.get("root", "")).strip() or not root.is_dir():
+        raise SystemExit(f"[오류] {config_path.name}의 root 폴더가 없습니다: {root}")
+    patterns = cfg.get("folders", ["**/1_강의영상"])
+    if isinstance(patterns, str):
+        patterns = [patterns]
+    if not isinstance(patterns, list) or not all(isinstance(p, str) for p in patterns):
+        raise SystemExit(f'[오류] {config_path.name}의 folders는 문자열 목록이어야 합니다. 예: folders = ["**/1_강의영상"]')
+    if patterns:  # 빈 목록이면 root 폴더 자체를 대상으로 씀
+        folders = sorted({p.resolve() for pat in patterns for p in root.glob(pat) if p.is_dir()})
+    else:
+        folders = [root.resolve()]
+    if not folders:
+        raise SystemExit(f"[오류] {root} 아래에 {patterns} 폴더가 없습니다.")
+    print(f"설정: {config_path}")
+    print(f"  root: {root}")
+    for folder in folders:
+        print(f"  - {folder.relative_to(root.resolve()) if folder != root.resolve() else '.'}")
+    return [str(p) for p in folders], bool(cfg.get("recursive", False))
+
+
 def find_ffmpeg():
     root = Path(__file__).resolve().parent
     candidates = sorted(root.glob("ffmpeg-*/bin/ffmpeg.exe"), reverse=True)
@@ -710,7 +746,10 @@ def process_file(model, monitor, runner, source, audio, args):
 def main():
     parser = argparse.ArgumentParser(
         description="Qwen3-ASR 대학 강의 일괄 전사 (Qwen3 ForcedAligner 정밀 타임스탬프)")
-    parser.add_argument("input_files", nargs="+", help="영상/음성 파일 여러 개, 와일드카드, 또는 폴더")
+    parser.add_argument("input_files", nargs="*",
+                        help="영상/음성 파일 여러 개, 와일드카드, 또는 폴더 (생략하면 config.toml의 폴더 사용)")
+    parser.add_argument("--config", default=None,
+                        help=f"입력 경로를 생략했을 때 읽을 설정 파일 (기본 {DEFAULT_CONFIG.name})")
     parser.add_argument("--recursive", action="store_true", help="폴더 하위까지 재귀 탐색")
     parser.add_argument("--overwrite", action="store_true", help="기존 .txt 결과 덮어쓰기")
     parser.add_argument("--minutes", type=float, default=0, help="각 파일 앞부분 N분만 시험 (0=전체)")
@@ -736,6 +775,10 @@ def main():
     if args.context_file:
         extra = Path(args.context_file).read_text(encoding="utf-8").strip()
         args.context = (args.context + "\n" + extra).strip()
+    if not args.input_files:
+        config_path = Path(args.config) if args.config else DEFAULT_CONFIG
+        args.input_files, cfg_recursive = inputs_from_config(config_path)
+        args.recursive = args.recursive or cfg_recursive
     files = available_inputs(args.input_files, args.recursive)
     if not files:
         parser.error("입력한 경로에 지원되는 음성/영상 파일이 없습니다.")
