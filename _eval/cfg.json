@@ -1,0 +1,40 @@
+{
+ "files": {
+  "금융계량경제_06주차_01": {
+   "media": "media/금융계량경제_06주차_01.mp4",
+   "whisper": "whisper_ref/금융계량경제_06주차_01.txt",
+   "runs": {
+    "old": "old_ckpt/금융계량경제_06주차_01.jsonl",
+    "n35_b1": "out_n35_b1/금융계량경제_06주차_01.qwen.json",
+    "n35_b8": "out_n35_b8/금융계량경제_06주차_01.qwen.json",
+    "n60_b8": "out_n60_b8/금융계량경제_06주차_01.qwen.json",
+    "n90_b8": "out_n90_b8/금융계량경제_06주차_01.qwen.json",
+    "n120_b8": "out_n120_b8/금융계량경제_06주차_01.qwen.json"
+   }
+  },
+  "자본시장과윤리_07주차_01": {
+   "media": "media/자본시장과윤리_07주차_01.m4a",
+   "whisper": "whisper_ref/자본시장과윤리_07주차_01.txt",
+   "runs": {
+    "old": "old_ckpt/자본시장과윤리_07주차_01.jsonl",
+    "n35_b1": "out_n35_b1/자본시장과윤리_07주차_01.qwen.json",
+    "n35_b8": "out_n35_b8/자본시장과윤리_07주차_01.qwen.json",
+    "n60_b8": "out_n60_b8/자본시장과윤리_07주차_01.qwen.json",
+    "n90_b8": "out_n90_b8/자본시장과윤리_07주차_01.qwen.json",
+    "n120_b8": "out_n120_b8/자본시장과윤리_07주차_01.qwen.json"
+   }
+  },
+  "포스트모던_06주차_01차시": {
+   "media": "media/포스트모던_06주차_01차시.mp4",
+   "whisper": "whisper_ref/포스트모던_06주차_01차시.txt",
+   "runs": {
+    "old": "old_ckpt/포스트모던_06주차_01차시.jsonl",
+    "n35_b1": "out_n35_b1/포스트모던_06주차_01차시.qwen.json",
+    "n35_b8": "out_n35_b8/포스트모던_06주차_01차시.qwen.json",
+    "n60_b8": "out_n60_b8/포스트모던_06주차_01차시.qwen.json",
+    "n90_b8": "out_n90_b8/포스트모던_06주차_01차시.qwen.json",
+    "n120_b8": "out_n120_b8/포스트모던_06주차_01차시.qwen.json"
+   }
+  }
+ }
+}

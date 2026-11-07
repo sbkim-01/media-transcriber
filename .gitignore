@@ -1,0 +1,52 @@
+# ---- 가상환경 / 외부 바이너리 (README 절차로 재설치) ----
+whisper_env/
+qwen_env/
+.venv/
+venv/
+ffmpeg-*/
+ffmpeg.exe
+ffprobe.exe
+
+# ---- 실행 중 생성물 ----
+.progress/
+.qwen_progress/
+__pycache__/
+*.pyc
+*.tmp
+*.log
+
+# ---- 수동 백업 (git 이력으로 대체) ----
+backup_*/
+*.bak
+qwen_asr_share.zip
+
+# ---- 미디어 / 전사 결과 (용량, 강의 저작물) ----
+*.mp4
+*.m4a
+*.mp3
+*.wav
+*.flac
+*.aac
+*.mkv
+*.mov
+*.webm
+*.ogg
+*.opus
+*.wma
+*.avi
+*.m4b
+
+# ---- _eval: 스크립트, 설정, 요약/리포트만 보관 ----
+_eval/media/
+_eval/edge/
+_eval/old_ckpt/
+_eval/out_*/
+_eval/whisper_ref/
+
+# ---- 기타 ----
+.claude/
+Thumbs.db
+desktop.ini
+
+# ---- 개인 메모 (실제 강의 폴더 경로 포함, 로컬에만 보관) ----
+텍스트추출방법_영상_음성.txt

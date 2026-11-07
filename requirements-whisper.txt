@@ -1,0 +1,11 @@
+# Whisper 전사기 (run_whisper.py, faster-whisper large-v3) 직접 의존 패키지
+# 동작 확인 조합: Windows 11, Python 3.10.11, torch 2.11.0+cu128 (2026-03 ~ 2026-10 사용)
+#
+# torch 는 run_whisper.py가 직접 import하지 않지만, 기존 환경에 cu128 빌드가 함께 설치되어 있었음
+# (CUDA 런타임 DLL 공급 목적). 재현 시 아래 명령으로 먼저 설치한 뒤 이 파일을 설치한다.
+#   pip install torch==2.11.0 torchaudio==2.11.0 --index-url https://download.pytorch.org/whl/cu128
+#
+# 전체 패키지 스냅샷은 env/whisper_env_freeze.txt 참고
+faster-whisper==1.2.1
+ctranslate2==4.7.1
+tqdm==4.67.3
